@@ -1,8 +1,8 @@
-
 const fs = require('fs')
 const path = './'
 
 //Dado que a assinatura da função readdir do módulo fs é:
+/*
 fs.readdir(path, (err, files) => {
     if (err) {
         console.log('ocorreu um erro.')
@@ -10,6 +10,7 @@ fs.readdir(path, (err, files) => {
         console.log(files)
     }
 })
+*/
 //Construa uma versão desta função promisified, ou seja, que retorne uma promise. 
 //(Será possível chamá-la da seguinte forma: readdirPromise(path).then((files)=> console.log(files)) )
 function readdirPromise(path) {
@@ -23,3 +24,5 @@ function readdirPromise(path) {
         })
     })
 }
+
+readdirPromise(path).then((files)=> console.log(files))
