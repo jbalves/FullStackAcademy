@@ -11,9 +11,29 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 app.get('/', (request, response) => {
-    response.render('home',{
-        nome: 'Jeferson Barros'
-    })
+    response.render('home')
+})
+
+const calculoJuros = (p, i, n) => p * Math.pow(1 + i, n)
+
+app.get('/calculadora', (request, response) => {
+    /*
+    const resultado = {
+        calculado: false
+    }
+    */
+    const resultado = {
+        calculado: false
+    }
+    if (request.query.valorInicial && request.query.taxa && request.query.tempo) {
+        resultado.calculado = true
+        resultado.total = calculoJuros(
+            parseFloat(request.query.valorInicial),
+            parseFloat(request.query.taxa) / 100,
+            parseInt(request.query.tempo)
+        )
+    }
+    response.render('calculadora', { resultado })
 })
 
 app.listen(port, () => console.log('Server running...'))

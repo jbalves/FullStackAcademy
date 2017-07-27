@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    font-family: sans-serif;
 }
 .header {
     background: grey; 
@@ -8,4 +9,12 @@ body {
 }
 .content {
     background: #efefef ;
+}
+
+.resultado{
+    width: 300px;
+    margin: 0 auto;
+    background: yellow;
+    text-align: center;
+    padding: 15px;
 }
