@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const MongoClient = require('mongodb').MongoClient
+const mongoUri = 'mongodb://jbalves:jbalves@cluster0-shard-00-00-f5tvv.mongodb.net:27017,cluster0-shard-00-01-f5tvv.mongodb.net:27017,cluster0-shard-00-02-f5tvv.mongodb.net:27017/<DATABASE>?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin'
+
 
 app.use(express.static('public'))
 
@@ -36,4 +39,23 @@ app.get('/calculadora', (request, response) => {
     response.render('calculadora', { resultado })
 })
 
-app.listen(port, () => console.log('Server running...'))
+
+MongoClient.connect(mongoUri, (err, db) => {
+    if (err) {
+        return
+    } else {
+        app.db = db
+        app.listen(port, () => console.log('Server running...'))
+    }
+
+    /*
+    const operacao = {
+        descricao: 'Salário',
+        valor: 10000 
+    }
+    const operacoes = db.collection('operacoes')
+    operacoes.insert(operacao, (err, res) => {
+        console.log(res)
+    })
+    */
+})
