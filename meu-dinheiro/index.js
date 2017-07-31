@@ -1,8 +1,6 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const MongoClient = require('mongodb').MongoClient
-const mongoUri = 'mongodb://jbalves:jbalves@cluster0-shard-00-00-f5tvv.mongodb.net:27017,cluster0-shard-00-01-f5tvv.mongodb.net:27017,cluster0-shard-00-02-f5tvv.mongodb.net:27017/<DATABASE>?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin'
 
 
 app.use(express.static('public'))
@@ -20,11 +18,6 @@ app.get('/', (request, response) => {
 const calculoJuros = (p, i, n) => p * Math.pow(1 + i, n)
 
 app.get('/calculadora', (request, response) => {
-    /*
-    const resultado = {
-        calculado: false
-    }
-    */
     const resultado = {
         calculado: false
     }
@@ -38,24 +31,28 @@ app.get('/calculadora', (request, response) => {
     }
     response.render('calculadora', { resultado })
 })
+app.listen(port, () => console.log('Server running...'))
 
 
+
+
+const MongoClient = require('mongodb').MongoClient
+const mongoUri = 'mongodb://jbalves:jbalves@meu-dinheiro-shard-00-00-f5tvv.mongodb.net:27017,meu-dinheiro-shard-00-01-f5tvv.mongodb.net:27017,meu-dinheiro-shard-00-02-f5tvv.mongodb.net:27017/<DATABASE>?ssl=true&replicaSet=meu-dinheiro-shard-0&authSource=admin'
 MongoClient.connect(mongoUri, (err, db) => {
-    if (err) {
-        return
-    } else {
-        app.db = db
-        app.listen(port, () => console.log('Server running...'))
-    }
+    console.log('MongoClient Connected!')
 
-    /*
     const operacao = {
         descricao: 'Salário',
-        valor: 10000 
+        valor: 10000
     }
     const operacoes = db.collection('operacoes')
-    operacoes.insert(operacao, (err, res) => {
-        console.log(res)
-    })
-    */
+
+    if (operacoes){
+        operacoes.update(operacao, (err, res) => {
+            console.log(res)
+        })
+    } else {
+        console.log('Falha ao criar collection')        
+    }
+    
 })
